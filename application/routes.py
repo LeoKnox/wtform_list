@@ -9,10 +9,12 @@ def index():
 class ListOne(db.Document):
     list_id     =   db.IntField( unique=True )
     item_one    =   db.StringField()
+    list_list   =   db.ListField()
 
 @app.route("/list")
 def list():
     #ListOne(list_id = 1, item_one="Red").save()
     #ListOne(list_id = 2, item_one="Blue").save()
+    ListOne(list_id = 3, item_one="Blue", list_list=[1,2]).save()
     items = ListOne.objects.all()
     return render_template("list.html", items=items, nav_list="active")
