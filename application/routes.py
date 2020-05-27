@@ -13,13 +13,14 @@ class list_item(db.Document):
 class ListOne(db.Document):
     list_id     =   db.IntField( unique=True )
     item_one    =   db.StringField()
+    li          =   db.ReferenceField(list_item)
     list_list   =   db.ListField()
 
 @app.route("/list")
 def list():
-    items = ListOne.objects.all()
     x = list_item(li_id=1, li_data="fly")
     print(x.li_data)
+    items = ListOne.objects.all()
     return render_template("list.html", items=items, nav_list="active")
 
 #ListOne(list_id = 1, item_one="Red").save()
