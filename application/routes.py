@@ -7,11 +7,13 @@ mycursor = mydb.cursor()
 @app.route("/index")
 def index():
     mycursor = mydb.cursor()
-    sql = "DELETE FROM user WHERE email = %s"
-    adr = ("Stormbringer", )
-    mycursor.execute(sql, adr)
-    mydb.commit()
-    print(mycursor.rowcount, "record(s) deleted")
+    #sql = "DELETE FROM user WHERE email = %s"
+    #adr = ("Stormbringer", )
+    #mycursor.execute(sql, adr)
+    #mydb.commit()
+    sql = "DROP TABLE IF EXISTS flaskhtmldb"
+    mycursor.execute(sql)
+    #print(mycursor.rowcount, "record(s) deleted")
     return render_template("index.html", nav_index="active")
 
 @app.route("/index2")
