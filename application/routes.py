@@ -1,31 +1,45 @@
-from application import app, db
+from application import app, mydb
 from flask import render_template
+
+mycursor = mydb.cursor()
 
 @app.route("/")
 @app.route("/index")
 def index():
+    mycursor = mydb.cursor()
+    sql = "DELETE FROM user WHERE email = %s"
+    adr = ("Stormbringer", )
+    mycursor.execute(sql, adr)
+    mydb.commit()
+    print(mycursor.rowcount, "record(s) deleted")
     return render_template("index.html", nav_index="active")
 
-class list_item(db.Document):
-    li_id       =   db.IntField( unique=True )
-    li_data     =   db.StringField()
-
-class ListOne(db.Document):
-    list_id     =   db.IntField( unique=True )
-    item_one    =   db.StringField()
-    li          =   db.ReferenceField(list_item)
-    list_list   =   db.ListField()
-
-@app.route("/list")
-def list():
-    x = list_item(li_id=1, li_data="fly")
-    print(x.li_data)
-    items = ListOne.objects.all()
-    return render_template("list.html", items=items, nav_list="active")
-
-#ListOne(list_id = 1, item_one="Red").save()
-#ListOne(list_id = 2, item_one="Blue").save()
-#ListOne(list_id = 3, item_one="Blue", list_list=[1,2]).save()
-#ListOne.objects(list_id=3).update_one(list_list=[3])
-#ListOne.objects(list_id=3).update_one(push__list_list=4)
-#ListOne.objects(list_id=3).update(pull__list_list=3)
+@app.route("/index2")
+def index2():
+    #mycursor.execute("ALTER TABLE flaskhtmldb ADD COLUMN char_id INT")
+    #mycursor.execute("CREATE TABLE user (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), email VARCHAR(255))")
+    #sql = "INSERT INTO user (name, email) VALUES (%s, %s)"
+    #val = ("Ynzon", "Axe")
+    #mycursor.execute(sql, val)
+    '''val = [
+        ('Red Sonya', "Sword"),
+        ('Wulfgar', "Hammer")
+    ]'''
+    #mycursor.executemany(sql, val)
+    #mydb.commit()
+    #mycursor = mydb.cursor()
+    #sql = "DELETE FROM user WHERE email = 'Axe'"
+    #sql = "SELECT * FROM user WHERE email LIKE '%or%'"
+    #sql = "SELECT * FROM user ORDER BY email"
+    #mycursor.execute(sql)
+    #mydb.commit()
+    #print (f"{mycursor.rowcount}, record(s) deleted")
+    #myresult = mycursor.fetchall()
+    #for x in myresult:
+    #    print(x)
+    #mycursor.execute("SELECT name, email FROM user")
+    #myresult = mycursor.fetchall()
+    #myresult = mycursor.fetchone()
+    #print(f"----> {myresult}")
+    #print (f"record inserted ID:{mycursor.lastrowid}")
+    return render_template("index.html", nav_index="active")
