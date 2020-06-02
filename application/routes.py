@@ -11,8 +11,12 @@ def index():
     #adr = ("Stormbringer", )
     #mycursor.execute(sql, adr)
     #mydb.commit()
-    sql = "DROP TABLE IF EXISTS flaskhtmldb"
-    mycursor.execute(sql)
+    #sql = "DROP TABLE IF EXISTS flaskhtmldb"
+    sql = "UPDATE user SET email = %s WHERE email = %s"
+    val = ("Sword", "Longsword")
+    mycursor.execute(sql, val)
+    mydb.commit()
+    print(f"{mycursor.rowcount}, record(s) affected")
     #print(mycursor.rowcount, "record(s) deleted")
     return render_template("index.html", nav_index="active")
 
